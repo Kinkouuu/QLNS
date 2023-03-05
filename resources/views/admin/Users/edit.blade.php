@@ -32,13 +32,13 @@
                             <label for="">Giới tính</label>
                             <div class="d-flex">
                                 <div class="form-check m-2">
-                                    <input class="form-check-input" type="radio" name="sex" id="flexRadioDefault2" value="Nam" {{ $user->sex == 'male'? 'checked=""' : ''}}>
+                                    <input class="form-check-input" type="radio" name="sex" id="flexRadioDefault2" value="Nam" {{ $user->sex == 'Nam'? 'checked=""' : ''}}>
                                     <label class="form-check-label" for="flexRadioDefault2">
-                                        Name
+                                        Nam
                                     </label>
                                 </div>
                                 <div class="form-check m-2">
-                                    <input class="form-check-input" type="radio" name="sex" id="flexRadioDefault1" value="Nữ" {{ $user->sex == 'female'? 'checked=""' : ''}}>
+                                    <input class="form-check-input" type="radio" name="sex" id="flexRadioDefault1" value="Nữ" {{ $user->sex == 'Nữ'? 'checked=""' : ''}}>
                                     <label class="form-check-label" for="flexRadioDefault1">
                                         Nữ
                                     </label>
