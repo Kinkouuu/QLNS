@@ -29,7 +29,7 @@ Route::middleware(['auth'])->group(function()
     {
         
         Route::get('/',[MainController::class,'index'])->name('admin');
-        Route::get('main',[MainController::class,'index']);
+        Route::post('',[MainController::class,'save']);
         //Departments 
         Route::prefix('departments')->group(function()
         {
@@ -50,7 +50,6 @@ Route::middleware(['auth'])->group(function()
             Route::delete('destroy',[UserController::class,'destroy']);
             Route::get('reset',[UserController::class,'reset']);
             Route::post('reset',[UserController::class,'change']);
-            
             Route::get('verification/{id}',[UserController::class,'verification'])->name('verification');
             Route::post('verification/{id}',[UserController::class,'firstLogin']);
         });

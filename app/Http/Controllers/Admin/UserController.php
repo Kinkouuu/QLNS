@@ -27,7 +27,7 @@ class UserController extends Controller
         return DB::table('users')
         ->leftjoin('departments','users.department_id','=','departments.id')
         ->select('users.*','departments.name as department_name')
-        // ->where('users.role','!=','0')
+        ->where('users.role','!=','0')
         ->paginate(15);
         // return User::orderby('id')->paginate(15);
 
@@ -76,11 +76,19 @@ class UserController extends Controller
         ]);
     }
     //cap nhat thong tin nhan vien
-    public function update(User $user,Request $request){
+    public function update(User $user,UpdateUser $request){
         // dd($request->all());
         try{
-            $user->fill($request->input());
-            $user->save();
+            DB::table('users')
+            ->where('id',$request->input('id'))
+            ->update(array(
+                'email'=> $request->input('email'),
+                'name'=> $request->input('name'),
+                'birth_day' => $request->input('birth_day'),
+                'sex' => $request->input('sex'),
+                'department_id' => $request->input('department_id'),
+                'role' => $request->input('role')
+                ));
             Session::flash('success', 'Cập nhật thông tin nhân viên thành công');
         }catch(\Exception $err){
             Session::flash('error', 'Đã có lỗi xảy ra, vui lòng kiểm tra lại');

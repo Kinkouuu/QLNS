@@ -30,21 +30,14 @@ class LoginController extends Controller
                 Session::put('user_name', $user_name);
                 $user_id = Auth::id();
                 Session::put('user_id', $user_id);
+                // $role = Auth::role()->role;
+                // Session::put('role', $role);
                 if(Auth::user()->email_verified_at === null){
                     return redirect()->route('verification',[$user_id]);
                 }else{
                     return redirect()->route('admin');
                 }
-                // $role = Auth::user()->role;
-                // // dd($role);
-                // if($role == 0 || $role == 1){
-                //     return redirect()->route('admin');
-                // }elseif($role == 2){
-                //     return redirect()->route('manager');
-                // }else{
-                //     return redirect()->route('employee');
-                // }
-                
+
             }
             Session::flash('error', 'Tài khoản đăng nhập hoặc mật khẩu sai');
             return redirect()->back();

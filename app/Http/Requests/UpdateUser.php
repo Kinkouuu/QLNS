@@ -6,6 +6,14 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateUser extends FormRequest
 {
+        /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -14,7 +22,7 @@ class UpdateUser extends FormRequest
         $id = $this->id;
         return [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email'.$id,
+            'email' => 'required|email|unique:users,email,' .$id,
             'pass' => 'required|min:6',
             'birth_day' => 'required|before:tomorrow',
 

@@ -8,18 +8,18 @@
                             <input type="text" readonly class="form-control" name="id" value="{{$user->id}}">
                         </div>
                         <div class="col-md-12 mb-3">
-                            <label for="">Họ tên</label>
-                            @error('name')
-                            <span style="color:red">{{$message}}</span>
-                            @enderror
-                            <input type="text" class="form-control" name="name" value="{{$user->name}}">
-                        </div>
-                        <div class="col-md-12 mb-3">
                             <label for="">Tài khoản email</label>
                             @error('email')
                             <span style="color:red">{{$message}}</span>
                             @enderror
                             <input type="text" class="form-control" name="email" value="{{$user->email}}">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="">Họ tên</label>
+                            @error('name')
+                            <span style="color:red">{{$message}}</span>
+                            @enderror
+                            <input type="text" class="form-control" name="name" value="{{$user->name}}">
                         </div>
                         <div class="col-md-12 mb-3">
                             <label for="">Năm sinh</label>
