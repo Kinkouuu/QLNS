@@ -8,14 +8,20 @@ use App\Http\Requests\DepartmentRequest;
 use App\Http\Requests\UpdateDepartment;
 use App\Models\Department;
 use Illuminate\Support\Facades\Session;
-
+use Illuminate\Support\Facades\Gate;
 class DepartmentController extends Controller
 {
     //trang them moi phong ban
     public function create(){
-        return view('admin.departments.add',[
-            'title' => 'Thêm phòng ban'
-        ]);
+        if (!Gate::allows('create-department')){
+            return view('admin.departments.add',[
+                'title' => 'Thêm phòng ban'
+            ]);
+        }else{
+            return view('admin.error',[
+                'title' => 'Từ chối truy cập'
+            ]);
+        }
     }
     //xu ly request them phong ban
     public function store(DepartmentRequest $request){
@@ -40,12 +46,18 @@ class DepartmentController extends Controller
             'departments' => $this->getDepartment(),
         ]);
     }
-    //hien thi danh sach phong ban
+    //hien thi thong tin phong ban
     public function show(Department $department){
-        return view('admin.departments.edit',[
-            'title' => 'Cập nhật phòng ban',
-            'department' =>$department
-        ]);
+        if (!Gate::allows('create-department')){
+            return view('admin.departments.edit',[
+                'title' => 'Cập nhật phòng ban',
+                'department' =>$department
+            ]);
+        }else{
+            return view('admin.error',[
+                'title' => 'Từ chối truy cập'
+            ]);
+        }
     }
     //cap nhat phong ban
     public function update(Department $department,UpdateDepartment $request){

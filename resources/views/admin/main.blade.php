@@ -15,7 +15,7 @@
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-    <div class="container-fluid">
+    <div class="container-fluid text-center">
         <h1>{{$title}} </h1>
     </div><!-- /.container-fluid -->
     </section>

@@ -44,7 +44,7 @@
                 @endif
             </td>
             <td>
-                <a href="edit/{{$department->id}}">
+                <a href="{{route('departments.edit',['department'=>$department->id])}}">
                     <i class="fa-solid fa-pen-to-square"></i>
                 </a>
             </td>

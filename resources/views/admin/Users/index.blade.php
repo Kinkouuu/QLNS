@@ -60,7 +60,7 @@
                 @endif
             </td>
             <td>
-                <a href="edit/{{$user->id}}" class="btn btn-outline-primary">
+                <a href="{{route('users.edit',['user'=>$user->id])}}" class="btn btn-outline-primary">
                     <i class="fa-solid fa-pen-to-square"></i>
                 </a>
                 <a href="" class="btn btn-outline-danger" onclick="removeRow({{$user->id}},'/admin/users/destroy')">

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Jobs\SendMail;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\resetPass;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -34,10 +35,16 @@ class UserController extends Controller
     }
     // view form them tai khoan
     public function create(){
-        return view('admin.users.add',[
-            'title' => 'Thêm danh nhân viên',
-            'departments' => $this->getDepartment()
-        ]);
+        if (!Gate::allows('create-user')){
+            return view('admin.users.add',[
+                'title' => 'Thêm danh nhân viên',
+                'departments' => $this->getDepartment()
+            ]);
+        }else{
+            return view('admin.error',[
+                'title' => 'Từ chối truy cập'
+            ]);
+        }
     }
     //xu ly request them thong tin nhan vien
     public function store(UserRequest $request ){
@@ -69,6 +76,7 @@ class UserController extends Controller
     }
     // trang cap nhat thong tin nhan vien
     public function show(User $user){
+        
         return view('admin.users.edit',[
             'title' => 'Cập nhật thông tin nhân viên',
             'user' => $user,
@@ -118,14 +126,19 @@ class UserController extends Controller
     }
     //trang cap nhat mat khau
     public function reset(){
-        return view('admin.users.reset',[
-            'title' => 'Cấp lại mật khẩu',
-            'users' => $this->getUser(),
-        ]);
+        if (!Gate::allows('reset-user')){
+            return view('admin.users.reset',[
+                'title' => 'Cấp lại mật khẩu',
+                'users' => $this->getUser(),
+            ]);
+        }else{
+            return view('admin.error',[
+                'title' => 'Từ chối truy cập'
+            ]);
+        }
     }
     //xu ly cap nhat mat khau
     public function change(Reset $request){
-        
         $users = $request->user_list;
         if($users!== null){
             // dd($users);

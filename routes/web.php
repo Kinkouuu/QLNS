@@ -33,22 +33,22 @@ Route::middleware(['auth'])->group(function()
         //Departments 
         Route::prefix('departments')->group(function()
         {
-            Route::get('add',[DepartmentController::class,'create']);
+            Route::get('add',[DepartmentController::class,'create'])->name('departments.create');
             Route::post('add',[DepartmentController::class,'store']);
-            Route::get('list',[DepartmentController::class,'index']);
-            Route::get('edit/{department}',[DepartmentController::class,'show']);
+            Route::get('list',[DepartmentController::class,'index'])->name('departments.list');
+            Route::get('edit/{department}',[DepartmentController::class,'show'])->name('departments.edit');
             Route::post('edit/{department}',[DepartmentController::class,'update']);
         });
 
         //user accounts
         Route::prefix('users')->group(function(){
-            Route::get('add',[UserController::class,'create']);
+            Route::get('add',[UserController::class,'create'])->name('users.create');
             Route::post('add',[UserController::class,'store']);
-            Route::get('list',[UserController::class,'index']);
-            Route::get('edit/{user}',[UserController::class,'show']);
+            Route::get('list',[UserController::class,'index'])->name('users.list');
+            Route::get('edit/{user}',[UserController::class,'show'])->name('users.edit');
             Route::post('edit/{user}',[UserController::class,'update']);
             Route::delete('destroy',[UserController::class,'destroy']);
-            Route::get('reset',[UserController::class,'reset']);
+            Route::get('reset',[UserController::class,'reset'])->name('users.reset');
             Route::post('reset',[UserController::class,'change']);
             Route::get('verification/{id}',[UserController::class,'verification'])->name('verification');
             Route::post('verification/{id}',[UserController::class,'firstLogin']);
