@@ -30,8 +30,6 @@ class LoginController extends Controller
                 Session::put('user_name', $user_name);
                 $user_id = Auth::id();
                 Session::put('user_id', $user_id);
-                // $role = Auth::role()->role;
-                // Session::put('role', $role);
                 if(Auth::user()->email_verified_at === null){
                     return redirect()->route('verification',[$user_id]);
                 }else{

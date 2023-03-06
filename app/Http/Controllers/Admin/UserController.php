@@ -16,21 +16,37 @@ use App\Jobs\SendMail;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\resetPass;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
-{
+{      // lay thong tin nguoi truy cap
+    public function author(){
+
+    }
         // Lay danh sach phong ban
     public function getDepartment(){
         return Department::Where('active',1)->get();
     }
         // lay danh sach nhan vien
     public function getUser(){
-        return DB::table('users')
-        ->leftjoin('departments','users.department_id','=','departments.id')
-        ->select('users.*','departments.name as department_name')
-        ->where('users.role','!=','0')
-        ->paginate(15);
-        // return User::orderby('id')->paginate(15);
+        if(Auth::user()->role != 0) //  neu la nhan vien thi lay ds nhan vien cung cap tro xuong
+        {
+            $role = Auth::user()->role;
+            $department_id = Auth::user()->department_id;
+            return DB::table('users')
+            ->leftjoin('departments','users.department_id','=','departments.id')
+            ->select('users.*','departments.name as department_name')
+            ->where('users.role','>=',$role)
+            ->where('users.department_id','=',$department_id)
+            ->paginate(15);
+        }else{ //neu la admin thi lay het danh sach
+            return DB::table('users')
+            ->leftjoin('departments','users.department_id','=','departments.id')
+            ->select('users.*','departments.name as department_name')
+            ->where('users.role','>',0)
+            ->paginate(15);
+        }
+
 
     }
     // view form them tai khoan
@@ -105,25 +121,33 @@ class UserController extends Controller
     }
     // xoa thong tin nguoi dung
     public function destroy(Request $request){
-        $result = User::where('id', $request->input('id'))
-        ->where('role','!=' ,'0')
-        ->first();
-        if ($result) {
-            $result->delete();
-            return response()->json([
-                'error' => false,
-                'message' => 'Xóa nhân viên thành công'
-            ]);
-        }
-        else{
-            return response()->json([
-                'error' => false,
-                'message' => 'Không thể xóa tài khoản admin'
-            ]);
-        }
 
-        return response()->json([ 'error' => true ]);  
+        if (!Gate::allows('delete-user')){
+            $result = User::where('id', $request->input('id'))
+            ->where('role','!=' ,'0')
+            ->first();
+            if ($result) {
+                $result->delete();
+                return response()->json([
+                    'error' => false,
+                    'message' => 'Xóa nhân viên thành công'
+                ]);
+            }
+            else{
+                return response()->json([
+                    'error' => false,
+                    'message' => 'Không thể xóa tài khoản admin'
+                ]);
+            }
+        }else{
+            return response()->json([
+                'error' => false,
+                'message' => 'Bạn không có quyền xóa tài khoản'
+            ]);
+        }
     }
+
+
     //trang cap nhat mat khau
     public function reset(){
         if (!Gate::allows('reset-user')){
