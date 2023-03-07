@@ -9,7 +9,7 @@
                     @error('pass')
                     <span style="color:red">{{$message}}</span>
                     @enderror
-                    <input type="password" class="form-control m-2" style="width: 100%" name="pass" placeholder="Enter new password">
+                    <input type="password" class="form-control m-2" style="width: 100%" name="pass" placeholder="Enter new password" value="{{old('pass')}}">
                 </div>
             </div>
                 <div class="col-md-5 d-flex align-items-center">

@@ -9,9 +9,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\sendPass;
+use App\Mail\resetPass;
 
-class SendMail implements ShouldQueue
+class ResetMail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     protected $email;
@@ -31,6 +31,6 @@ class SendMail implements ShouldQueue
      */
     public function handle(): void
     {
-        Mail::to($this->email)->send(new sendPass($this->email,$this->pass));
+        Mail::to($this->email)->send(new resetPass($this->email,$this->pass));
     }
 }

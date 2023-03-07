@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use App\Jobs\SendMail;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\resetPass;
+use App\Jobs\ResetMail;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 
@@ -174,7 +174,8 @@ class UserController extends Controller
                     ->where('id', $user)->first();
         //    echo($result->email .' - ');
         // dd($request->input('pass'));
-                    Mail::to($result->email)->send(new resetPass($request->input('pass')));
+            #Hang doi Queue sendmail
+            ResetMail::dispatch($result->email,$request->pass)->delay(now()->addSeconds(2));
         }
             Session::flash('success', 'Cập nhật thành công');
         }else{
@@ -205,8 +206,10 @@ class UserController extends Controller
             Session::flash('success', 'Cập nhật mật khẩu thành công');
             $result = DB::table('users')
             ->where('id', $request->id)->first();
-            //Gui mail
-            Mail::to($result->email)->send(new resetPass($request->input('pass')));
+        //Gui mail
+            // Mail::to($result->email)->send(new resetPass($request->input('pass')));
+        #Hang doi Queue sendmail
+        ResetMail::dispatch($result->email,$request->pass)->delay(now()->addSeconds(2));
         } catch (\Exception $err) {
             Session::flash('error', 'Đã có lỗi xảy ra, vui lòng kiểm tra lại');
 

@@ -16,10 +16,14 @@ class resetPass extends Mailable
     /**
      * Create a new message instance.
      */
+    protected $email;
     protected $pass;
-
-    public function __construct($pass)
+    /**
+     * Create a new job instance.
+     */
+    public function __construct($email,$pass)
     {
+        $this->email = $email;
         $this->pass = $pass;
     }
 
